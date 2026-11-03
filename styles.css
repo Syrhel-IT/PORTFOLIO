@@ -801,3 +801,17 @@ h2 { font-size: clamp(1.3rem, 3vw, 1.75rem); }
   .hero { min-height: auto; padding: 20px 0; }
   .hero-img { width: min(40vh, 220px); }
 }
+
+/* diploma: show the whole certificate at a sensible size */
+.photo-slot.diploma {
+  aspect-ratio: auto;          /* don't force the 4:3 crop */
+  width: min(100%, 640px);     /* cap the size */
+  margin: 24px auto 8px;       /* center it */
+  padding: 10px;
+}
+
+.photo-slot.diploma img {
+  height: auto;
+  object-fit: contain;         /* never crop the diploma */
+  border-radius: 12px;
+}
