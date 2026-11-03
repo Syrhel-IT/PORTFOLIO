@@ -834,42 +834,80 @@ h2 { font-size: clamp(1.3rem, 3vw, 1.75rem); }
   .hero-text .lead { font-size: 1rem; margin-bottom: 16px; }
 }
 
-/* ================= THEME TOGGLE ================= */
+/* ================= THEME SWITCH ================= */
 :root[data-theme="light"] { color-scheme: light; }
 
 .theme-toggle {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
+  position: relative;
   flex: none;
-  border-radius: 50%;
+  width: 64px;
+  height: 34px;
+  padding: 0;
+  border-radius: 999px;
   border: 1px solid var(--glass-border);
   background: var(--glass);
-  color: var(--text);
-  cursor: pointer;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   box-shadow: inset 0 1px 0 var(--glass-shine);
-  transition: transform 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
 
-.theme-toggle:hover { color: var(--accent); border-color: var(--accent); transform: scale(1.06); }
+.theme-toggle:hover { border-color: var(--accent); }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-/* show the icon of the mode you'd switch TO: moon in light, sun in dark */
-.theme-toggle .sun { display: none; }
+/* sun on the left, moon on the right */
+.theme-toggle .ico {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+.theme-toggle .ico-sun  { left: 10px; }
+.theme-toggle .ico-moon { right: 10px; }
 
-:root[data-theme="dark"] .theme-toggle .moon { display: none; }
-:root[data-theme="dark"] .theme-toggle .sun { display: block; }
+/* the sliding knob (light mode: left) */
+.theme-toggle .knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
+/* the icon under the knob turns light so it stays visible */
+.theme-toggle .ico-sun { color: var(--bg); }
+
+/* dark mode: knob slides right */
+:root[data-theme="dark"] .theme-toggle .knob { transform: translateX(30px); }
+:root[data-theme="dark"] .theme-toggle .ico-sun { color: var(--muted); }
+:root[data-theme="dark"] .theme-toggle .ico-moon { color: var(--bg); }
+
+/* no saved choice yet: follow the system setting */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .theme-toggle .moon { display: none; }
-  :root:not([data-theme]) .theme-toggle .sun { display: block; }
+  :root:not([data-theme]) .theme-toggle .knob { transform: translateX(30px); }
+  :root:not([data-theme]) .theme-toggle .ico-sun { color: var(--muted); }
+  :root:not([data-theme]) .theme-toggle .ico-moon { color: var(--bg); }
 }
 
-/* on subpages the button sits at the right end of the old nav */
-.page-nav .theme-toggle { margin-left: auto; width: 36px; height: 36px; }
+/* subpages: switch sits at the right end of the nav */
+.page-nav .theme-toggle { margin-left: auto; transform: scale(0.9); }
 
 @media (max-width: 480px) {
-  .theme-toggle { width: 40px; height: 40px; }
+  .theme-toggle { width: 58px; height: 32px; }
+  .theme-toggle .knob { width: 24px; height: 24px; }
+  :root[data-theme="dark"] .theme-toggle .knob { transform: translateX(26px); }
+}
+
+@media (max-width: 480px) and (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .theme-toggle .knob { transform: translateX(26px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle .knob { transition: none; }
 }
