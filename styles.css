@@ -927,3 +927,196 @@ h2 { font-size: clamp(1.3rem, 3vw, 1.75rem); }
   opacity: 1;
   transform: none;
 }
+
+/* ================= LANYARD ID CARD ================= */
+.lanyard {
+  --L: 210px;     /* strap length */
+  --cw: 250px;    /* card width */
+  --ch: 350px;    /* card height */
+  position: relative;
+  z-index: 1;
+  align-self: start;
+  margin-top: -32px;
+  height: calc(var(--L) + var(--ch) + 40px);
+  width: 100%;
+}
+
+.swing {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* the lace */
+.strap {
+  position: absolute;
+  left: -14px;
+  top: -60px;
+  width: 28px;
+  height: calc(var(--L) + 60px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #0b0b10;
+  border-inline: 2px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.strap span {
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* metal clasp */
+.clip {
+  position: absolute;
+  left: -10px;
+  top: calc(var(--L) - 16px);
+  width: 20px;
+  height: 30px;
+  border-radius: 7px;
+  background: linear-gradient(180deg, #e3e6ec, #7c838f);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  z-index: 2;
+}
+
+/* the card */
+.id-card {
+  position: absolute;
+  left: calc(var(--cw) / -2);
+  top: var(--L);
+  width: var(--cw);
+  height: var(--ch);
+  border-radius: 20px;
+  overflow: hidden;
+  transform-origin: 50% 0;
+  cursor: grab;
+  touch-action: none;           /* lets the card be dragged on phones */
+  user-select: none;
+  -webkit-user-select: none;
+  background: linear-gradient(165deg, #12a6bd 0%, #0b4a86 55%, #0a1c3f 100%);
+  box-shadow:
+    0 26px 50px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.dragging .id-card { cursor: grabbing; }
+
+.id-slot {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 46px;
+  height: 8px;
+  margin-left: -23px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.55);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+  z-index: 3;
+}
+
+.id-top {
+  position: absolute;
+  top: 26px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.92);
+  z-index: 3;
+}
+
+.id-photo {
+  position: absolute;
+  inset: 44px 0 0 0;
+}
+
+.id-photo img {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 92%;
+  width: auto;
+  max-width: none;
+  pointer-events: none;
+}
+
+.id-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 36px 16px 16px;
+  text-align: center;
+  background: linear-gradient(180deg, transparent, rgba(5, 15, 40, 0.88) 55%);
+  z-index: 3;
+}
+
+.id-name {
+  font-family: "Brush Script MT", "Segoe Script", "Snell Roundhand", cursive;
+  font-size: 2.1rem;
+  line-height: 1;
+  font-style: italic;
+  color: #fff;
+}
+
+.id-role {
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* glass shine across the card */
+.id-shine {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.05) 28%, transparent 45%);
+}
+
+.lanyard-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  transition: opacity 0.3s ease;
+  animation: hint-pulse 2s ease-in-out infinite;
+}
+
+.lanyard-hint.gone { opacity: 0; animation: none; }
+
+@keyframes hint-pulse { 50% { opacity: 0.4; } }
+
+/* tablets and phones: smaller card, hero stays stacked */
+@media (max-width: 900px) {
+  .lanyard {
+    --L: 130px;
+    --cw: 210px;
+    --ch: 290px;
+    margin-top: -24px;
+    max-width: 420px;
+    margin-inline: auto;
+  }
+  .id-name { font-size: 1.8rem; }
+}
