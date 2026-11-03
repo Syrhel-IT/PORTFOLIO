@@ -673,3 +673,131 @@ footer { border-width: 1px 0 0; }
   .hero-text .lead { margin-left: auto; margin-right: auto; }
   .socials { justify-content: center; }
 }
+
+/* ================= RESPONSIVE ================= */
+:root { --maxw: 1200px; }
+
+/* never allow sideways scrolling, and keep media inside its box */
+html, body { max-width: 100%; overflow-x: clip; }
+img, svg, video { max-width: 100%; }
+
+/* one width for the page and the nav bar */
+.wrap { max-width: var(--maxw); }
+.topnav-bar { max-width: calc(var(--maxw) - 40px); }
+
+/* fluid text, and long words/emails can wrap instead of overflowing */
+h2 { font-size: clamp(1.3rem, 3vw, 1.75rem); }
+.card h3, .job h3 { overflow-wrap: anywhere; }
+.btn, .hire { overflow-wrap: anywhere; text-align: center; }
+
+/* cards never force the page wider than a tiny screen */
+.grid { grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); }
+
+/* project photos: always 3 equal columns on desktop (no orphan photo) */
+.grid:has(> .photo-slot) { grid-template-columns: repeat(3, 1fr); }
+
+/* hero fills the screen; svh handles mobile browser toolbars */
+.hero {
+  min-height: calc(100vh - 84px);
+  min-height: calc(100svh - 84px);
+}
+
+/* ---------- Very large screens ---------- */
+@media (min-width: 1600px) {
+  :root { --maxw: 1320px; }
+  body { font-size: 18px; }
+  .hero-img { width: min(100%, 500px); }
+}
+
+/* ---------- Small laptops: hide the email so the nav fits ---------- */
+@media (max-width: 1199px) {
+  .nav-mail { display: none; }
+}
+
+@media (max-width: 1000px) {
+  .hero { gap: 36px; }
+}
+
+/* ---------- Tablets: nav becomes a dropdown ---------- */
+@media (max-width: 960px) {
+  .nav-pill {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px;
+    border-radius: 18px;
+    background: var(--card);
+    max-height: calc(100svh - 110px);
+    overflow-y: auto;
+  }
+  .nav-pill.open { display: flex; }
+  .nav-pill a { padding: 12px 16px; font-size: 13px; }
+}
+
+/* ---------- Tablets portrait and below: hero stacks ---------- */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    min-height: auto;
+    padding: 24px 0 8px;
+    text-align: center;
+  }
+  .hero-img { width: min(70%, 340px); }
+  .hero-text .lead { margin-left: auto; margin-right: auto; }
+  .socials { justify-content: center; }
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 700px) {
+  section { padding: 26px 0; }
+  .job { padding: 18px; }
+  .card { padding: 16px; }
+
+  /* lighter blur = smoother scrolling on phones */
+  .card, .job, .photo-slot, .topnav-bar, .nav-pill, footer, .chip {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  /* project photos become a swipeable row */
+  .grid:has(> .photo-slot) {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 84%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .grid:has(> .photo-slot) > .photo-slot { scroll-snap-align: center; }
+}
+
+/* ---------- Small phones ---------- */
+@media (max-width: 480px) {
+  .wrap { padding: 0 16px; }
+  nav.topnav { padding: 10px 12px 0; }
+  .topnav-bar { padding: 8px 8px 8px 14px; gap: 10px; }
+  .logo { font-size: 16px; }
+  .nav-btn { width: 40px; height: 40px; }
+  .hero-img { width: min(80%, 300px); }
+  .btns { flex-direction: column; align-items: stretch; }
+  .hire { display: block; }
+  .ai-logos { gap: 14px; }
+  .ai-logos img { height: 24px; }
+}
+
+/* very narrow: keep only the JS badge in the nav */
+@media (max-width: 360px) {
+  .logo-text { display: none; }
+}
+
+/* ---------- Phones held sideways (short screens) ---------- */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero { min-height: auto; padding: 20px 0; }
+  .hero-img { width: min(40vh, 220px); }
+}
