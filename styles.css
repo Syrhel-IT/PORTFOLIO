@@ -1,3 +1,4 @@
+
 :root {
   --bg: #f6f7f9;
   --card: #fff;
@@ -514,11 +515,9 @@ a.cert-card:hover {
 
 .photo-slot {
   margin: 24px 0 8px;
-  min-height: 240px;
+  aspect-ratio: 4 / 3;          /* every box is the same shape */
   border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   overflow: hidden;
   color: var(--muted);
   font-size: 0.95rem;
@@ -527,9 +526,9 @@ a.cert-card:hover {
 .photo-slot img {
   display: block;
   width: 100%;
-  height: auto;
-  max-height: none;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;            /* fills the box, crops the extra */
+  object-position: center;
 }
 
 /* ---------- Footer ---------- */
