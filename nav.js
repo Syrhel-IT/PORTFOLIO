@@ -1,14 +1,13 @@
 (function () {
     var file = location.pathname.split('/').pop().toLowerCase();
     var home = file === '' || file === 'index.html';
-    var base = home ? '' : 'index.html';   // on subpages, links go back to the homepage
+    var base = home ? '' : 'index.html';
   
     var items = [
       ['about', 'Home'], ['skills', 'Skills'], ['experience', 'Experience'],
       ['projects', 'Projects'], ['credentials', 'Credentials'], ['contact', 'Contact']
     ];
   
-    // which menu item to highlight on each subpage
     var sectionOf = {
       'education.html': 'credentials',
       'certification.html': 'credentials',
@@ -29,7 +28,7 @@
         '<div class="nav-pill" id="navPill">' + links + '</div>' +
         '<div class="nav-right">' +
           '<a class="nav-mail" href="mailto:delacruzjhonsyrhel@gmail.com">delacruzjhonsyrhel@gmail.com</a>' +
-          '<button class="theme-toggle" type="button" role="switch" aria-label="Toggle light or dark mode">' +
+          '<button class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle light or dark mode">' +
             '<svg class="ico ico-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>' +
             '<svg class="ico ico-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>' +
             '<span class="knob"></span>' +
@@ -61,6 +60,28 @@
     anchors.forEach(function (a) {
       a.addEventListener('click', function () { pill.classList.remove('open'); });
     });
+  
+    // ---------- light / dark switch ----------
+    var root = document.documentElement;
+    var sw = document.querySelector('.theme-toggle');
+  
+    function isDark() {
+      return (root.getAttribute('data-theme') ||
+        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
+    }
+  
+    function syncSwitch() {
+      sw.setAttribute('aria-checked', isDark() ? 'true' : 'false');
+    }
+  
+    sw.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      syncSwitch();
+    });
+  
+    syncSwitch();
   
     // homepage only: highlight the section you're viewing
     if (home && 'IntersectionObserver' in window) {
