@@ -815,3 +815,21 @@ h2 { font-size: clamp(1.3rem, 3vw, 1.75rem); }
   object-fit: contain;         /* never crop the diploma */
   border-radius: 12px;
 }
+
+/* even glass rim: pin the photo inside the frame */
+.hero-img img {
+  position: absolute;
+  inset: 14px;
+  width: calc(100% - 28px);
+  height: calc(100% - 28px);
+}
+
+/* phones: smaller photo so the buttons show on the first screen */
+@media (max-width: 700px) {
+  .hero { padding-top: 12px; gap: 20px; }
+  .hero-img { width: min(58%, 230px); padding: 10px; }
+  .hero-img img { inset: 10px; width: calc(100% - 20px); height: calc(100% - 20px); }
+  .hero-text h1 { font-size: 2.2rem; }
+  .hero-text .role { font-size: 1.35rem; margin-bottom: 12px; }
+  .hero-text .lead { font-size: 1rem; margin-bottom: 16px; }
+}
