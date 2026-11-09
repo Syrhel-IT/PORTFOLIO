@@ -1120,3 +1120,14 @@ h2 { font-size: clamp(1.3rem, 3vw, 1.75rem); }
   }
   .id-name { font-size: 1.8rem; }
 }
+
+/* full screenshot, uncropped */
+.photo-slot.shot {
+  aspect-ratio: auto;
+  padding: 10px;
+}
+.photo-slot.shot img {
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+}
